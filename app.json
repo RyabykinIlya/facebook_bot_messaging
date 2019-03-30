@@ -1,0 +1,8 @@
+{
+  "name": "IRyabykin_bot facebook app",
+  "description": "Facebook IRyabykin webhook app.",
+  "image": "heroku/python",
+  "scripts": {
+    "postdeploy": "python manage.py migrate"
+  }
+}
