@@ -18,5 +18,5 @@ from .views import webhook, index
 
 urlpatterns = [
     path('', index),
-    path('/webhook', webhook),
+    path('webhook', webhook),
 ]

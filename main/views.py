@@ -24,7 +24,7 @@ def webhook(request):
                       json=data)
 
     if (request.method == 'GET'):
-        return 'Hello, Facebook!'
+        return HttpResponse(json.dumps('Hello, Facebook!'))
 
     if (request.method == 'POST'):
         data = json.loads(request.body)
@@ -38,6 +38,6 @@ def webhook(request):
                 else:
                     send_msg_to_user(sender, msg_block.get('text'))
             except KeyError:
-                return 'ok'
+                return HttpResponse(json.dumps('ok'))
 
-    return 'ok'
+    return HttpResponse(json.dumps('ok'))
