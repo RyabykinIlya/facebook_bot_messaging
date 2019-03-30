@@ -6,7 +6,7 @@ from django.http import HttpResponse
 import json
 import requests
 
-from Bemeta.settings import ACCESS_TOKEN, F_API_VERSION
+from Bemeta.settings import SECRET_KEY, ACCESS_TOKEN, F_API_VERSION
 
 
 #    graph = facebook.GraphAPI(access_token='EAAGCNqNrl0UBABpoAzlqBuv2ZCEt6DvVoZADu6W5gTWNxMzBxPsRbFhSPXkc7u01aVtcPHdkcuePcoxCskxyDVmLuvRXqCcyHdI4NZAGfxR6WS0fx0wMQb6jc11BtisNbUiuNgnwWZCRfMANLtIQSenjvZAl5qCIv3HYqcJUoGY69h3f8F7H0',version='2.12')
@@ -24,7 +24,11 @@ def webhook(request):
                       json=data)
 
     if (request.method == 'GET'):
-        return HttpResponse(json.dumps('Hello, Facebook!'), status=200)
+        if request.GET.get('hub.mode') == 'subscribe':
+            if request.GET.get('hub.verify_token') == SECRET_KEY:
+                return HttpResponse(request.GET.get('hub.challenge'), status=200)
+        else:
+            return HttpResponse(json.dumps('Not found'), status=404)
 
     if (request.method == 'POST'):
         data = json.loads(request.body)
