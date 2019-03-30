@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+{% block title %}
+    <title>Title</title>
+{% endblock %}
+{% block header %}
+    Главная страница
+{% endblock %}
+{% block content %}
+    <div class="col-md-3" id="chats_list">
+        <p class="lead block-name">List of chats</p>
+        <div class="container-fluid">
+            <div class="row">
+                <ul class="nav justify-content-left nav-pills">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">User 1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">User 2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">User 3</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9" id="chat_window">
+        <p class="lead block-name">Chat Window</p>
+    </div>
+{% endblock %}
