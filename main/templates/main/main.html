@@ -11,20 +11,82 @@
         <div class="container-fluid">
             <div class="row">
                 <ul class="nav justify-content-left nav-pills">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">User 1</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">User 2</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">User 3</a>
-                    </li>
+                    {% for client in clients %}
+                        <li class="nav-item">
+                            <a class="nav-link client" href="#" id="{{ client.user.username }}">
+                                <span class="avatar mr-2"><img src="{{ client.profile_pic_url }}"></span>
+                                {{ client.user.last_name }} {{ client.user.first_name }}</a>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
     </div>
     <div class="col-md-9" id="chat_window">
         <p class="lead block-name">Chat Window</p>
+        <div class="container-fluid" id="chat_messages">
+        </div>
+
+        <div class="input-group flex-nowrap pb-2">
+            <input type="text" class="form-control" placeholder="Введите сообщение" aria-label="Message"
+                   aria-describedby="button-send" name="message">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-send">Button</button>
+            </div>
+        </div>
     </div>
+
+{% endblock %}
+
+{% block additional_script %}
+    <script>
+        var Socket = new ReconnectingWebSocket(
+            'ws://' + window.location.host +
+            '/ws/fb-messages/');
+
+        Socket.onopen = function () {
+            console.log("Connection successful.");
+        };
+
+        Socket.onmessage = function (e) {
+            var data = JSON.parse(e.data);
+            if (data['message']['type'] == 'message_html') {
+                var $chat_window = $('#chat_messages');
+                $chat_window.append(data['message']['html_code']);
+                // keep eyes on buttom of scrolled block
+                $chat_window.scrollTop($chat_window.prop('scrollHeight') - $chat_window.height());
+            }
+        };
+
+        Socket.onclose = function (e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('input[name="message"]').onkeyup = function (e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#button-send').click();
+                $(this).val('');
+            }
+        };
+
+        $('#button-send').on('click', function () {
+            Socket.send(JSON.stringify({
+                'type': 'send_message',
+                'message': $(this).closest('div.input-group').find('input[name="message"]').val(),
+                'client_id': $('a.client.active').attr('id')
+            }));
+        });
+
+        var clients = document.querySelectorAll('a.client');
+        for (var i = 0; i < clients.length; i++) {
+            clients[i].addEventListener('click', function (e) {
+                $(clients).removeClass('active');
+                $(this).addClass('active');
+                Socket.send(JSON.stringify({
+                    'type': 'get_messages',
+                    'client_id': $(this).attr('id')
+                }));
+            }, (i));
+        }
+    </script>
 {% endblock %}

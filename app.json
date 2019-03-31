@@ -4,5 +4,15 @@
   "image": "heroku/python",
   "scripts": {
     "postdeploy": "python manage.py migrate"
+  },
+  "env": {
+    "SECRET_KEY": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "value": "%rd6^kkd3a##_fh!&p_&7zjq*7v9ndz6--x37ug9#0tj=+3p20"
+    },
+    "ACCESS_TOKEN": {
+      "description": "Token to Facebook bot",
+      "value": "EAAGCNqNrl0UBAHTjR2ZATmffus6nZB6S0sP8jVGxtsGL7HoDkjOdFcRoMJDcBwKU8KuHEjg4p4LtJUzD83AN9R8qJxCaC0aJscHiOZABO9IQyiUZC89wNE93PsyHQdI0IUq1YbBCEm49IBntRr50cGx5zMTknOUKX1xbuh4DgFEN3m5okHA2"
+    }
   }
 }

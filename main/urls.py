@@ -14,9 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import webhook, index
+from django.views.decorators.csrf import csrf_exempt
+
+from main.views import webhook, index
+from main.consumers import AsyncMessageReceiver
 
 urlpatterns = [
     path('', index),
-    path('webhook', webhook),
+    path('webhook', csrf_exempt(webhook)),
+]
+
+websocket_urlpatterns = [
+    path('ws/fb-messages/', AsyncMessageReceiver),
 ]
