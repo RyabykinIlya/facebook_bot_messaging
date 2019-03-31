@@ -100,18 +100,10 @@ body {
 .message.from_client .text .senderName {
     color: #1abc9c;
 }
+
 .text .senderName {
     font-weight: 700;
     margin-bottom: 5px;
-}
-
-.userStatus {
-    color: #bdc3c7;
-}
-
-.text .senderName .receiverStatusDelimiter {
-    margin: 0 10px;
-    color: #333;
 }
 
 .messageText {
@@ -122,12 +114,11 @@ body {
     user-select: text;
 }
 
-.time {
+.datetime {
     float: right;
     color: #999;
     white-space: nowrap;
     margin-left: 20px;
-    margin-top: .5em;
     margin-bottom: -0.5em;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -136,6 +127,10 @@ body {
     -ms-user-select: none;
     user-select: none;
     position: relative;
+}
+
+.time, .message.from_client > .text > .senderName > .datetime {
+    margin-top: .5em;
 }
 
 .time .dtString {
@@ -153,7 +148,6 @@ body {
 
 .message.from_operator .text {
     box-shadow: 0px 2px 0px #9acce3;
-    background: #B3E5FC;
 }
 
 .message.from_operator .text {

@@ -6,5 +6,4 @@ from main.models import User
 admin.site.register(Client)
 admin.site.register(Message)
 
-
 admin.site.register(User, UserAdmin)

@@ -20,7 +20,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#'%rd6^kkd3a##_fh!&p_&7zjq*7v9ndz6--x37ug9#0tj=+3p20'
 SECRET_KEY = os.environ.get('SECRET_KEY', '%rd6^kkd3a##_fh!&p_&7zjq*7v9ndz6--x37ug9#0tj=+3p20')
 ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN', 'None')
 F_API_VERSION = 'v3.2'
@@ -137,8 +136,3 @@ USE_TZ = True
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-
-# Extra places for collectstatic to find static files.
-#STATICFILES_DIRS = (
-#    os.path.join(BASE_DIR, "main/static")
-#)

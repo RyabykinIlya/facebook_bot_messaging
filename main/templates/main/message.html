@@ -1,18 +1,19 @@
 <div class="row message {{ author }} p-1">
-    <div id="text_101" data-id="101" class="text">
+    <div class="text">
         <div class="senderName">
             {% if client_msg %}
                 <span class="avatar"><img src="{{ client_profile_pic }}"></span>
-                <span>Ilya Ryabykin</span>
+                <span>{{ client_name }}</span>
             {% else %}
                 <span>Вы</span>
             {% endif %}
-            <span class="receiverStatusDelimiter"></span>
-            <span class="userStatus">Offline</span>
+            <div class="datetime">
+                <span class="dtString">{{ date }}</span>
+            </div>
         </div>
         <span class="messageText">{{ message_text }}</span>
-        <div id="editable_101" class="time">
-            <span class="dtString">10:11:50</span>
+        <div class="datetime time">
+            <span class="dtString">{{ time }}</span>
         </div>
     </div>
 </div>

@@ -13,11 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
+from django.urls import path, include
 from django.views.decorators.csrf import csrf_exempt
 
 from main.views import webhook, index
 from main.consumers import AsyncMessageReceiver
+from Bemeta.settings import DEBUG
 
 urlpatterns = [
     path('', index),

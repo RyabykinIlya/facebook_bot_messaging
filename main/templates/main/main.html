@@ -10,7 +10,7 @@
         <p class="lead block-name">List of chats</p>
         <div class="container-fluid">
             <div class="row">
-                <ul class="nav justify-content-left nav-pills">
+                <ul class="nav justify-content-left nav-pills" id="clients">
                     {% for client in clients %}
                         <li class="nav-item">
                             <a class="nav-link client" href="#" id="{{ client.user.username }}">
@@ -29,9 +29,9 @@
 
         <div class="input-group flex-nowrap pb-2">
             <input type="text" class="form-control" placeholder="Введите сообщение" aria-label="Message"
-                   aria-describedby="button-send" name="message">
+                   aria-describedby="button-send" name="message" readonly>
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" id="button-send">Button</button>
+                <button class="btn btn-outline-secondary" type="button" id="button-send" disabled>Button</button>
             </div>
         </div>
     </div>
@@ -51,10 +51,24 @@
         Socket.onmessage = function (e) {
             var data = JSON.parse(e.data);
             if (data['message']['type'] == 'message_html') {
-                var $chat_window = $('#chat_messages');
-                $chat_window.append(data['message']['html_code']);
-                // keep eyes on buttom of scrolled block
-                $chat_window.scrollTop($chat_window.prop('scrollHeight') - $chat_window.height());
+                // if message triggered
+                if (data['message']['block_type'] == 'message') {
+                    var $active_client = $('a.client.active');
+                    // post message to page only if client selected
+                    if ($active_client) {
+                        if ($active_client.attr('id') == data['message']['client_id']) {
+                            var $chat_window = $('#chat_messages');
+                            $chat_window.append(data['message']['html_code']);
+                            // keep eyes on buttom of scrolled block
+                            $chat_window.scrollTop($chat_window.prop('scrollHeight') - $chat_window.height());
+                        }
+                    }
+                }
+                // if new client sent message to app
+                else if (data['message']['block_type'] == 'client') {
+                    $('#clients').append(data['message']['html_code']);
+                    activate_listeners()
+                }
             }
         };
 
@@ -77,16 +91,30 @@
             }));
         });
 
-        var clients = document.querySelectorAll('a.client');
-        for (var i = 0; i < clients.length; i++) {
-            clients[i].addEventListener('click', function (e) {
-                $(clients).removeClass('active');
-                $(this).addClass('active');
-                Socket.send(JSON.stringify({
-                    'type': 'get_messages',
-                    'client_id': $(this).attr('id')
-                }));
-            }, (i));
+        function activate_listeners() {
+            var clients = document.querySelectorAll('a.client');
+            for (var i = 0; i < clients.length; i++) {
+                clients[i].addEventListener('click', function (e) {
+                    // clear chat messages
+                    $('#chat_messages').empty();
+
+                    // remove active from others
+                    $(clients).removeClass('active');
+                    $(this).addClass('active');
+
+                    // remove disabled attrs from input group
+                    $('#button-send').removeAttr('disabled');
+                    $('input[name="message"]').removeAttr('readonly');
+
+                    // get messages from the server
+                    Socket.send(JSON.stringify({
+                        'type': 'get_messages',
+                        'client_id': $(this).attr('id')
+                    }));
+                }, (i));
+            }
         }
+
+        $(document).ready(activate_listeners);
     </script>
 {% endblock %}
