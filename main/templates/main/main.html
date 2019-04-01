@@ -40,8 +40,9 @@
 
 {% block additional_script %}
     <script>
+        var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
         var Socket = new ReconnectingWebSocket(
-            'ws://' + window.location.host +
+            ws_scheme + '://' + window.location.host +
             '/ws/fb-messages/');
 
         Socket.onopen = function () {
