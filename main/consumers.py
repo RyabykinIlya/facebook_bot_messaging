@@ -37,7 +37,8 @@ class AsyncMessageReceiver(AsyncWebsocketConsumerCustom):
 
                 await self.send_html_block('main/message.html',
                                            'message',
-                                           {'client_id': text_data_json.get('client_id'),
+                                           {'message_id': message.id,
+                                            'client_id': text_data_json.get('client_id'),
                                             'client_msg': True if author == 'from_client' else False,
                                             'client_name': '{} {}'.format(message.user.last_name,
                                                                           message.user.first_name),
@@ -72,7 +73,8 @@ class AsyncMessageReceiver(AsyncWebsocketConsumerCustom):
         # send message to page
         await self.send_html_block('main/message.html',
                                    'message',
-                                   {'client_id': event.get('client_id'),
+                                   {'message_id': message.id,
+                                    'client_id': event.get('client_id'),
                                     'client_msg': True if author == 'from_client' else False,
                                     'client_name': '{} {}'.format(user.last_name, user.first_name),
                                     'client_profile_pic': fb_user.get('profile_pic'),

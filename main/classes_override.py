@@ -15,6 +15,7 @@ class AsyncWebsocketConsumerCustom(AsyncWebsocketConsumer):
         '''
         await self.send(text_data=json.dumps({
             'message': {'type': 'message_html',
+                        'message_id': params.get('message_id'),
                         'client_id': params.get('client_id'),
                         'block_type': block_type,
                         'html_code': render(None, template, params).content.decode("utf-8")}

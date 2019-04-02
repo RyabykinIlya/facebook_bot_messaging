@@ -59,7 +59,9 @@
                     if ($active_client) {
                         if ($active_client.attr('id') == data['message']['client_id']) {
                             var $chat_window = $('#chat_messages');
-                            $chat_window.append(data['message']['html_code']);
+                            if (!$('#' + data['message']['message_id']).length) {
+                                $chat_window.append(data['message']['html_code']);
+                            }
                             // keep eyes on buttom of scrolled block
                             $chat_window.scrollTop($chat_window.prop('scrollHeight') - $chat_window.height());
                         }
