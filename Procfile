@@ -1,1 +1,1 @@
-web: gunicorn --bind 0.0.0.0:${PORT} Bemeta.asgi --log-file -
+web: daphne Bemeta.asgi:application --bind 0.0.0.0 --port ${PORT} --verbosity 1
