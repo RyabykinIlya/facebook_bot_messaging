@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
     'default': dj_database_url.config(
-        default='postgres://postgres:{}@localhost:5432/postgres'.format(os.environ.get('POSTGRES_PASS')),
+        default=os.environ.get('DATABASE_URL', 'postgres://postgres:{}@localhost:5432/postgres'.format(os.environ.get('POSTGRES_PASS'))),
         conn_max_age=600
     )
 }
