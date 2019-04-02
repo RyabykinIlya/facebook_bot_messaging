@@ -1,1 +1,1 @@
-web: daphne -p ${PORT} Bemeta.asgi:application
+web: gunicorn --bind 0.0.0.0:${PORT} Bemeta.asgi --log-file -
