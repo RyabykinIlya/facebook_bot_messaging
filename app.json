@@ -5,6 +5,10 @@
   "scripts": {
     "postdeploy": "python manage.py migrate"
   },
+  "addons": [
+    "heroku-postgresql:hobby-dev",
+    "heroku-redis:hobby-dev"
+  ],
   "env": {
     "SECRET_KEY": {
       "description": "A secret key for verifying the integrity of signed cookies.",
