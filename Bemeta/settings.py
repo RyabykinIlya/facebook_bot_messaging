@@ -116,6 +116,7 @@ CHANNEL_LAYERS = {
     },
 }
 
+
 AUTH_USER_MODEL = "main.User"
 
 # Internationalization
