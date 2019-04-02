@@ -18,7 +18,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 from main.views import webhook, index
 from main.consumers import AsyncMessageReceiver
-from Bemeta.settings import DEBUG
 
 urlpatterns = [
     path('', index),
